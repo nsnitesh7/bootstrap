@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+	<form class="well form-search">
+		<input type="text" name="searchkey" class="span3 search-query" placeholder="Search..."/>
+		<button class="btn" onclick="http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20flickr.photos.search%20where%20text%3D%22cat%22%20and%20api_key%3D%2292bd0de55a63046155c09f1a06876875%22%20limit%2010&format=json&diagnostics=true&callback=getpics">Search</button>
+	</form>
+	<script type='text/javascript'>  
+    // Parses returned response and extracts  
+    // the title, links, and text of each news story.
+      
+	function getpics(o)
+	{  
+		var photos = o.query.results.photo;  
+		var output = '';
+		var no_items=photos.length;
+		var farm = photos[0].farm;  
+		var id = photos[0].id;  
+		var server = photos[0].server;
+		var secret = photos[0].secret;
+		console.log("charu");
+		var link="http://farm"+farm+".staticflickr.com/"+server+"/"+id+"_"+secret+"_c.jpg";
+		console.log(link);
+		output += "<div class='item active'><img src='" + link + "'></div>";  
+		for(var i=1;i<no_items;i++)
+		{  
+			var farm = photos[i].farm;  
+			var id = photos[i].id;  
+			var server = photos[i].server;
+			var secret = photos[i].secret;
+			var link="http://farm"+farm+".staticflickr.com/"+server+"/"+id+"_"+secret+"_c.jpg";
+			console.log(link);
+			output += "<div class='item'><img src='" + link + "'></div>";  
+		}  
+      // Place news stories in div tag  
+      document.getElementById("checking").innerHTML = output;    
+    };
+    
+    </script>
+	<div class="container">
+		<div class="row">
+			<div class="span12 well">
+				<div id="myCarousel" class="carousel">
+					<center>
+					<div id="checking" class="carousel-inner">
+						<script src="http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20flickr.photos.search%20where%20text%3D%22dog%22%20and%20api_key%3D%2292bd0de55a63046155c09f1a06876875%22%20limit%2010&format=json&diagnostics=true&callback=getpics"></script>
+					
+					</div>
+					</center>
+					<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+					<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/carousel.js"></script>
+</body>
+</html>
+
